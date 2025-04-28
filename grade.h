@@ -7,11 +7,10 @@
 
 
 double grade(double midterm, double final, double homework);
-
 double grade(double midterm, double final, const std::vector<double>& hw);
-
 double grade(const Student_info& s);
 
 bool f_grade(double grade);
+bool containsIncompleteGrade(Student_info& si);
 
 #endif // GRADE_H

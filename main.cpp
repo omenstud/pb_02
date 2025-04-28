@@ -29,7 +29,7 @@ int main () {
 		}
 	}
 
-	std::vector<Student_info> failedStudents = extract_fails(students);
+	std::vector<Student_info> failedStudents = extractIncomplete(students);
 	printFailedStudents(failedStudents);
 
 	return 0;

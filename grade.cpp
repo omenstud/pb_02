@@ -1,6 +1,9 @@
 #include "median.h"
+#include "student_info.h"
 #include "grade.h"
 
+#include <algorithm>
+#include <iostream>
 #include <stdexcept>
 
 
@@ -25,4 +28,8 @@ double grade (const Student_info& s) {
 
 bool f_grade (double grade) {
 	return grade < 6;
+}
+
+bool containsIncompleteGrade (Student_info& si) {
+	return si.homework.empty() || std::find(si.homework.begin(), si.homework.end(), 0.0) == si.homework.end();
 }

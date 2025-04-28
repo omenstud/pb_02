@@ -2,7 +2,9 @@
 #include "locale_string.h"
 #include "grade.h"
 
+#include <algorithm>
 #include <iomanip>
+#include <list>
 #include <string>
 #include <vector>
 
@@ -77,4 +79,12 @@ std::vector<Student_info> extract_fails(std::vector<Student_info>& students) {
 	}
 
 	return failedStudents;
+}
+
+std::vector<Student_info> extractIncomplete(std::vector<Student_info>& students) {
+	std::vector<Student_info> incomplete;
+
+	std::remove_copy_if(students.begin(), students.end(), std::back_inserter(incomplete), containsIncompleteGrade);
+
+	return incomplete;
 }

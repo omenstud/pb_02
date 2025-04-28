@@ -22,3 +22,7 @@ double grade (double midterm, double final, const std::vector<double>& hw) {
 double grade (const Student_info& s) {
 	return grade(s.midterm, s.final, s.homework);
 }
+
+bool f_grade (double grade) {
+	return grade < 6;
+}

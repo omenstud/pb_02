@@ -3,6 +3,7 @@
 #include "grade.h"
 
 #include <algorithm>
+#include <cstddef>
 #include <iomanip>
 #include <list>
 #include <string>
@@ -63,6 +64,24 @@ void printFailedStudents(std::vector<Student_info>& failedStudents) {
 	}
 }
 
+void printIncompleteStudents(std::vector<Student_info>& incompleteStudents) {
+	std::cout << std::endl << "Выполнили не все работы:" << std::endl;
+
+	for (Student_info student : incompleteStudents) {
+		printStudentName(student);
+	}
+}
+
+void printStudents(std::vector<Student_info>& students, size_t maxlen) {
+	for (std::size_t i = 0; i != students.size(); ++i) {
+		try {
+			printStudentMidGrade(students[i], maxlen, grade(students[i]));
+		} catch (std::domain_error e) {
+			printExeption(students[i], maxlen, e.what());
+		}
+	}
+}
+
 std::vector<Student_info> extract_fails(std::vector<Student_info>& students) {
 	std::vector<Student_info> failedStudents;
 
@@ -84,7 +103,7 @@ std::vector<Student_info> extract_fails(std::vector<Student_info>& students) {
 std::vector<Student_info> extractIncomplete(std::vector<Student_info>& students) {
 	std::vector<Student_info> incomplete;
 
-	std::remove_copy_if(students.begin(), students.end(), std::back_inserter(incomplete), containsIncompleteGrade);
+	std::remove_copy_if(students.begin(), students.end(), std::back_inserter(incomplete), isStudentCompletedAllTasks);
 
 	return incomplete;
 }

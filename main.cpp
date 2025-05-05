@@ -20,17 +20,10 @@ int main () {
 
 	sort(students.begin(), students.end(), compare);
 
-	for (std::size_t i = 0; i != students.size(); ++i) {
-		try {
-			double final_grade = grade(students[i]);
-			printStudentMidGrade(students[i], maxlen, final_grade);
-		} catch (std::domain_error e) {
-			printExeption(students[i], maxlen, e.what());
-		}
-	}
-
-	std::vector<Student_info> failedStudents = extractIncomplete(students);
-	printFailedStudents(failedStudents);
+	printStudents(students, maxlen);
+	
+	std::vector<Student_info> incompleteStudents = extractIncomplete(students);
+	printIncompleteStudents(incompleteStudents);
 
 	return 0;
 }

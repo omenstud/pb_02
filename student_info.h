@@ -1,6 +1,7 @@
 #ifndef STUDENT_INFO
 #define STUDENT_INFO
 
+#include <cstddef>
 #include <list>
 #include <string>
 #include <vector>
@@ -20,6 +21,8 @@ void printExeption(const Student_info& student, std::size_t columnSize, const ch
 void printStudentMidGrade(const Student_info &student, std::size_t columnSize, double grade);
 void printStudentName(const Student_info &student);
 void printFailedStudents(std::vector<Student_info>& failedStudents);
+void printIncompleteStudents(std::vector<Student_info>& incompleteStudents);
+void printStudents(std::vector<Student_info>& strudents, size_t maxLen);
 
 std::vector<Student_info> extract_fails(std::vector<Student_info>& students);
 std::vector<Student_info> extractIncomplete(std::vector<Student_info>& students);

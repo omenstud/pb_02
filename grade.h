@@ -11,6 +11,7 @@ double grade(double midterm, double final, const std::vector<double>& hw);
 double grade(const Student_info& s);
 
 bool f_grade(double grade);
-bool containsIncompleteGrade(Student_info& si);
+bool isStudentCompletedAllTasks(Student_info& si);
+double computeGradesMedian(std::vector<Student_info>& students);
 
 #endif // GRADE_H

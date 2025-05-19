@@ -2,7 +2,6 @@
 #define STUDENT_INFO
 
 #include <cstddef>
-#include <list>
 #include <string>
 #include <vector>
 #include <iostream>
@@ -17,17 +16,18 @@ struct Student_info {
 std::istream& read_hw(std::istream& in, std::vector<double>& hw);
 std::istream& read(std::istream& is, Student_info& s);
 
-void printExeption(const Student_info& student, std::size_t columnSize, const char* exception);\
+void printExeption(const Student_info& student, std::size_t columnSize, const char* exception);
 void printStudentMidGrade(const Student_info &student, std::size_t columnSize, double grade);
 void printStudentName(const Student_info &student);
 void printFailedStudents(std::vector<Student_info>& failedStudents);
 void printIncompleteStudents(std::vector<Student_info>& incompleteStudents);
 void printStudents(std::vector<Student_info>& strudents, size_t maxLen);
+void printMedianScores(std::vector<Student_info>& successed, std::vector<Student_info>& failed);
+void printAvgScores(std::vector<Student_info>& successed, std::vector<Student_info>& failed);
 
 std::vector<Student_info> extract_fails(std::vector<Student_info>& students);
 std::vector<Student_info> extractIncomplete(std::vector<Student_info>& students);
 
 bool compare(const Student_info& x, const Student_info& y);
-
 
 #endif // STUDENT_INFO

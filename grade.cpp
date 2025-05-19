@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <iterator>
+#include <numeric>
 #include <stdexcept>
 #include <vector>
 
@@ -25,16 +26,22 @@ double grade (double midterm, double final, const std::vector<double>& hw) {
 
 
 //==============================================================================
-double grade (const Student_info& s) {
-	return grade(s.midterm, s.final, s.homework);
+double gradeStudentMedian(const Student_info& s) {
+	try {
+		return grade(s.midterm, s.final, s.homework);
+	} catch (std::domain_error e) {
+		return grade(s.midterm, s.final, 0.0);
+	}
 }
 
-double gradeFinal (const Student_info& s) {
-	return grade(s.midterm, s.final, s.homework);
+double gradeStudentAvg(const Student_info& s) {
+	double avg = std::accumulate(s.homework.begin(), s.homework.end(), 0.0);
+	return grade(s.midterm, s.final, s.homework.size() > 0 ? avg / s.homework.size() : 0.0);
 }
 
-bool f_grade (double grade) {
-	return grade < SUCCESS_GRADE_THRESHOLD;
+
+bool f_grade (const Student_info& s) {
+	return gradeStudentMedian(s) < SUCCESS_GRADE_THRESHOLD;
 }
 
 bool isStudentCompletedAllTasks(Student_info& si) {
@@ -44,7 +51,15 @@ bool isStudentCompletedAllTasks(Student_info& si) {
 double computeGradesMedian(std::vector<Student_info>& students) {
 	std::vector<double> grades;
 
-	std::transform(students.begin(), students.end(), std::back_inserter(students), gradeFinal);
+	std::transform(students.begin(), students.end(), std::back_inserter(grades), gradeStudentMedian);
+
+	return median(grades);
+}
+
+double computeGradesAvg(std::vector<Student_info>& students) {
+	std::vector<double> grades;
+
+	std::transform(students.begin(), students.end(), std::back_inserter(grades), gradeStudentAvg);
 
 	return median(grades);
 }

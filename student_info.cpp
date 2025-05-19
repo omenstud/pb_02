@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <cstddef>
 #include <iomanip>
-#include <list>
+#include <iterator>
 #include <string>
 #include <vector>
 
@@ -38,18 +38,14 @@ bool compare (const Student_info& x, const Student_info& y) {
 }
 
 void printExeption(const Student_info &student, std::size_t columnSize, const char* exception) {
-	std::cout << student.name << std::string(columnSize + 2 - string_lenght(student.name), ' ') << exception;
-
-	std::cout << std::endl;
+	std::cout << student.name << std::string(columnSize + 2 - string_lenght(student.name), ' ') << exception << std::endl;
 }
 
 void printStudentMidGrade(const Student_info &student, std::size_t columnSize, double grade) {
 	std::cout << student.name << std::string(columnSize + 2 - string_lenght(student.name), ' ');
 
 	std::streamsize prec = std::cout.precision();
-	std::cout << std::setprecision(3) << grade << std::setprecision(prec);
-
-	std::cout << std::endl;
+	std::cout << std::setprecision(3) << grade << std::setprecision(prec) << std::endl;
 }
 
 void printStudentName(const Student_info &student) {
@@ -72,10 +68,18 @@ void printIncompleteStudents(std::vector<Student_info>& incompleteStudents) {
 	}
 }
 
+void printMedianScores(std::vector<Student_info>& successed, std::vector<Student_info>& failed) {
+	std::cout << "Successed: " << computeGradesMedian(successed) << " Failed: "  << computeGradesMedian(failed) << std::endl;
+}
+
+void printAvgScores(std::vector<Student_info>& successed, std::vector<Student_info>& failed) {
+	std::cout << "Successed: " << computeGradesAvg(successed) << " Failed: "  << computeGradesAvg(failed) << std::endl;
+}
+
 void printStudents(std::vector<Student_info>& students, size_t maxlen) {
 	for (std::size_t i = 0; i != students.size(); ++i) {
 		try {
-			printStudentMidGrade(students[i], maxlen, grade(students[i]));
+			printStudentMidGrade(students[i], maxlen, gradeStudentMedian(students[i]));
 		} catch (std::domain_error e) {
 			printExeption(students[i], maxlen, e.what());
 		}
@@ -85,17 +89,7 @@ void printStudents(std::vector<Student_info>& students, size_t maxlen) {
 std::vector<Student_info> extract_fails(std::vector<Student_info>& students) {
 	std::vector<Student_info> failedStudents;
 
-	for (std::size_t i = 0; i != students.size(); ++i) {
-		try {
-			if (f_grade(grade(students[i]))) {
-				failedStudents.push_back(students[i]);
-				students.erase(students.begin() + i);
-			}
-		} catch (std::domain_error e) {
-			failedStudents.push_back(students[i]);
-			students.erase(students.begin() + i);
-		}
-	}
+	std::remove_copy_if(students.begin(), students.end(), std::back_inserter(failedStudents), f_grade);
 
 	return failedStudents;
 }
